@@ -12,10 +12,16 @@
       --gold: #c9a96e; --cream: #e8d5b0; --gray1: #1e1a17;
       --gray2: #2c2620; --gray3: #3f3830;
     }
-    html, body {
+    html {
       min-height: 100%; background: #1e1a17;
+    }
+    body {
+      min-height: 100vh; background: #1e1a17;
+      width: 100%; max-width: 100%;
       display: flex; flex-direction: column; align-items: center;
       font-family: 'Courier Prime', monospace; overflow-x: hidden;
+      margin: 0; padding: 0;
+      position: relative;
     }
     body::before {
       content: ''; position: fixed; inset: 0;
@@ -81,6 +87,7 @@
       margin: 32px 0 24px; position: relative; z-index: 5;
       text-shadow: 0 2px 18px rgba(201,169,110,0.45);
       animation: fadeIn 1.4s ease both; text-align: center;
+      width: 100%;
     }
     @keyframes fadeIn {
       from { opacity:0; transform: translateY(-14px); }
@@ -147,7 +154,7 @@
     /* ── MESSAGE ── */
     .message-section {
       position: relative; z-index: 5; width: min(560px, 92vw);
-      margin: 36px auto 80px; background: var(--brown1);
+      margin: 36px auto 32px; background: var(--brown1);
       border: 1px solid var(--gray3); border-radius: 4px;
       padding: 26px 28px 32px; animation: fadeIn 2s ease both;
     }
@@ -195,26 +202,42 @@
 
 
 <!-- Intro overlay -->
-<div id="intro" style="
-  position: fixed; inset: 0; z-index: 100;
+<div id="intro" onclick="closeIntro()" style="
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100vh;
   background: #1e1a17;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 20px;
+  z-index: 100;
   cursor: pointer;
 ">
   <div style="
-    font-family: 'Dancing Script', cursive;
-    color: #c9a96e; font-size: clamp(2rem, 8vw, 3rem);
-    text-shadow: 0 2px 24px rgba(201,169,110,0.5);
-    text-align: center; padding: 0 32px;
-    animation: pulse 2s ease-in-out infinite;
-  ">happy monthsary babii 🥹</div>
-  <div style="
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.75rem; letter-spacing: 0.3em;
-    color: #5c3d22; text-transform: uppercase;
-    animation: pulse 2s ease-in-out infinite;
-  ">tap to open</div>
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 90%;
+    text-align: center;
+  ">
+    <div style="
+      font-family: 'Dancing Script', cursive;
+      color: #c9a96e;
+      font-size: clamp(2rem, 8vw, 3rem);
+      text-shadow: 0 2px 24px rgba(201,169,110,0.5);
+      animation: pulse 2s ease-in-out infinite;
+    ">happy monthsary babii 🥹</div>
+    <div style="
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      color: #5c3d22;
+      text-transform: uppercase;
+      animation: pulse 2s ease-in-out infinite;
+    ">tap to open</div>
+  </div>
 </div>
 
 <style>
@@ -318,8 +341,8 @@ function toggleMusic() {
 }
 
 // Intro screen — tap to open + start music
-const intro = document.getElementById('intro');
-intro.addEventListener('click', () => {
+function closeIntro() {
+  const intro = document.getElementById('intro');
   intro.style.transition = 'opacity 0.8s ease';
   intro.style.opacity = '0';
   setTimeout(() => intro.style.display = 'none', 800);
@@ -328,7 +351,7 @@ intro.addEventListener('click', () => {
     playIcon.innerHTML = pauseIcon;
     playing = true;
   });
-});
+}
 </script>
 
 </body>
